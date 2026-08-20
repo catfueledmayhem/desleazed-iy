@@ -1,5 +1,3 @@
-# SLEAZE IS A CRYING BITCH THAT LOVES TO REPORT ME BECAUSE HES A PEDOPHILE
-
 # Desleazed Infinite Yield
 
 Finally, a non-garbage command line script for roblox!
