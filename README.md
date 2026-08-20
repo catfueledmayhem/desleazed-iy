@@ -1,24 +1,18 @@
-# Infinite Yield
+# Desleazed Infinite Yield
 
-The best cgommand line script for roblox.
-
-[![](https://dcbadge.limes.pink/api/server/https://discord.gg/78ZuWSq)](https://discord.gg/78ZuWSq)
+Finally, a non-garbage command line script for roblox!
 
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/catfueledmayhem/desleazed-iy/master/source"))()
 ```
 
- - Currently 400 commands
+ - Currently 439 commands
  - Open Source
  - 8+ years of development
 
 ## Developers
 
 ### Creator: [Edge](https://github.com/EdgeIY)
-### Developers: [Moon](https://github.com/LorekeeperZinnia), [Zwolf](https://github.com/luatsuki), [Sleaze](https://github.com/sleaze5), [Toon](https://github.com/Toon-arch), [Peyton](https://github.com/peyton2465), [ATP](https://github.com/ionizedparticle)
-
-## Usage
-You can learn how to use all the features of this script in [the wiki](https://github.com/EdgeIY/infiniteyield/wiki)!
-
+### Developers: [Moon](https://github.com/LorekeeperZinnia), [Zwolf](https://github.com/luatsuki), [Toon](https://github.com/Toon-arch), [Peyton](https://github.com/peyton2465), [the guy that doesnt do shit](https://github.com/ionizedparticle)
 ## Contributing
-There is no specific rules on contributing (as of now) just open a [pull request](https://github.com/EdgeIY/infiniteyield/pulls) and if it checks out we will merge it!
+contribute whatever you want to the original repo and ill merge it unless youre sleaze

@@ -64,7 +64,6 @@ Players = Services.Players
 UserInputService = Services.UserInputService
 TweenService = Services.TweenService
 HttpService = Services.HttpService
-ExperienceService = Services.ExperienceService
 MarketplaceService = Services.MarketplaceService
 RunService = Services.RunService
 TeleportService = Services.TeleportService
@@ -4330,16 +4329,7 @@ end
 
 local canvasPos = Vector2.new(0,0)
 local topCommand = nil
-local function updateCommandCanvasSize(frame)
-	local scale = (Scale and Scale.Scale) or 1
-	if scale <= 0 then scale = 1 end
-	local contentY = cmdListLayout.AbsoluteContentSize.Y
-	local unscaledY = math.ceil(contentY / scale)
-	frame.CanvasSize = UDim2.new(0, 0, 0, math.max(0, unscaledY))
-end
-cmdListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-	updateCommandCanvasSize(CMDsF)
-end)
+
 IndexContents = function(str,bool,cmdbar,Ianim)
 	CMDsF.CanvasPosition = Vector2.new(0,0)
 	local SizeY = 0
@@ -4483,8 +4473,7 @@ CMDs[#CMDs + 1] = {NAME = 'audiologger / alogger', DESC = 'Opens Edges audio log
 CMDs[#CMDs + 1] = {NAME = 'serverinfo / info', DESC = 'Gives you info about the server'}
 CMDs[#CMDs + 1] = {NAME = 'jobid', DESC = 'Copies the games JobId to your clipboard'}
 CMDs[#CMDs + 1] = {NAME = 'notifyjobid', DESC = 'Notifies you the games JobId'}
-CMDs[#CMDs + 1] = {NAME = 'rejoin / rj [reposition]', DESC = 'Makes you rejoin the game'}
-CMDs[#CMDs + 1] = {NAME = 'inviteprompt', DESC = 'Prompts the user of your choice that they had invited you. Requires a rejoin to function.'}
+CMDs[#CMDs + 1] = {NAME = 'rejoin / rj', DESC = 'Makes you rejoin the game'}
 CMDs[#CMDs + 1] = {NAME = 'autorejoin / autorj', DESC = 'Automatically rejoins the server if you get kicked/disconnected'}
 CMDs[#CMDs + 1] = {NAME = 'serverhop / shop', DESC = 'Teleports you to a different server'}
 CMDs[#CMDs + 1] = {NAME = 'gameteleport / gametp [place ID]', DESC = 'Joins a game by ID'}
@@ -4534,7 +4523,7 @@ CMDs[#CMDs + 1] = {NAME = 'alignmentkeys', DESC = 'Enables the left and right al
 CMDs[#CMDs + 1] = {NAME = 'unalignmentkeys / noalignmentkeys', DESC = 'Disables the alignment keys'}
 CMDs[#CMDs + 1] = {NAME = 'ctrllock', DESC = 'Binds Shiftlock to LeftControl'}
 CMDs[#CMDs + 1] = {NAME = 'unctrllock', DESC = 'Re-binds Shiftlock to LeftShift'}
-CMDs[#CMDs + 1] = {NAME = 'exit / shutdown / leave', DESC = 'Exits the game'}
+CMDs[#CMDs + 1] = {NAME = 'exit', DESC = 'Kills roblox process'}
 CMDs[#CMDs + 1] = {NAME = 'removecmd / deletecmd', DESC = 'Removes a command until the script is reloaded'}
 CMDs[#CMDs + 1] = {NAME = 'breakloops / break (cmd loops)', DESC = 'Stops any cmd loops (;100^1^cmd)'}
 CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
@@ -4570,7 +4559,7 @@ CMDs[#CMDs + 1] = {NAME = 'deletewaypoint / dwp [name]', DESC = 'Deletes a waypo
 CMDs[#CMDs + 1] = {NAME = 'clearwaypoints / cwp', DESC = 'Clears all waypoints'}
 CMDs[#CMDs + 1] = {NAME = 'cleargamewaypoints / cgamewp', DESC = 'Clears all waypoints for the game you are in'}
 CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
-CMDs[#CMDs + 1] = {NAME = 'goto [player] [request stream]', DESC = 'Go to a player'}
+CMDs[#CMDs + 1] = {NAME = 'goto [player]', DESC = 'Go to a player'}
 CMDs[#CMDs + 1] = {NAME = 'tweengoto / tgoto [player]', DESC = 'Tween to a player (bypasses some anti cheats)'}
 CMDs[#CMDs + 1] = {NAME = 'tweenspeed / tspeed [num]', DESC = 'Sets how fast all tween commands go (default is 1)'}
 CMDs[#CMDs + 1] = {NAME = 'vehiclegoto / vgoto [player]', DESC = 'Go to a player while in a vehicle'}
@@ -5064,11 +5053,11 @@ onDied()
 
 local booly = {
     truthy = { ["true"] = true, ["t"] = true, ["1"] = true, ["yes"] = true, ["y"] = true, ["on"] = true, ["enable"] = true, ["enabled"] = true },
-    falsy = { ["false"] = true, ["f"] = true, ["0"] = true, ["no"] = true, ["n"] = true, ["off"] = true, ["disable"] = true, ["disabled"] = true },
+    falsy = { ["false"] = true, ["f"] = true, ["0"] = true, ["no"] = true, ["n"] = true, ["off"] = true, ["disable"] = true, ["disabled"] = true } -- sleaze you forgot that commas dont fucking work like that dumbass
 }
 
 function parseBoolean(raw, default)
-    raw = tostring(raw):lower()
+    raw = tostring(raw)
     if booly.truthy[raw] then return true end
     if booly.falsy[raw] then return false end
     return default or false
@@ -6943,58 +6932,18 @@ addcmd('gametp',{'gameteleport'},function(args, speaker)
 	TeleportService:Teleport(args[1])
 end)
 
-teleportRespawnHandler = [[
-local ok, data = pcall(function() return game:GetService("TeleportService"):GetLocalPlayerTeleportData() end)
-if ok and typeof(data) == "CFrame" then
-    local Players = game:GetService("Players")
-    local ME = Players.LocalPlayer
-    while not ME do
-        Players:GetPropertyChangedSignal("LocalPlayer"):Wait()
-        ME = Players.LocalPlayer
-    end
-
-    local Character = ME.Character or ME.CharacterAdded:Wait()
-    Character:WaitForChild("HumanoidRootPart")
-
-    local t = tick()
-    while (tick() - t) <= 0.3 do
-        Character:PivotTo(data)
-        task.wait()
-    end
-end
-]]
 addcmd("rejoin", {"rj"}, function(args, speaker)
-    local data = nil
-    if parseBoolean(args[1], false) == true then
-        if queueteleport then
-            if speaker.Character then
-                data = speaker.Character:GetPivot()
-                queueteleport(teleportRespawnHandler)
-            end
-        else
-            notify("Incompatible Exploit", "Your exploit does not support this argument (missing queue_on_teleport)")
-        end
-    end
 
     if #Players:GetPlayers() <= 1 then
         Players.LocalPlayer:Kick("\nRejoining...")
-        task.wait(0.3)
-        TeleportService:Teleport(PlaceId, Players.LocalPlayer, data)
+        wait()
+        TeleportService:Teleport(PlaceId, Players.LocalPlayer)
     else
-        TeleportService:TeleportToPlaceInstance(PlaceId, JobId, Players.LocalPlayer, nil, data)
+        TeleportService:TeleportToPlaceInstance(PlaceId, JobId, Players.LocalPlayer)
     end
 end)
 
-addcmd("inviteprompt", {}, function(args, speaker)
-	local plrs = getPlayer(args[1], speaker)
-	if #plrs > 0 then
-		ExperienceService:LaunchExperience({
-			placeId = PlaceId,
-			gameInstanceId = JobId,
-			referredByPlayerId = plr[1].UserId
-		})
-	end
-end)
+
 
 addcmd("autorejoin", {"autorj"}, function(args, speaker)
 	GuiService.ErrorMessageChanged:Connect(function()
@@ -7024,7 +6973,7 @@ addcmd("serverhop", {"shop"}, function(args, speaker)
 	end
 end)
 
-addcmd("exit", {"shutdown", "leave"}, function(args, speaker)
+addcmd("exit", function(args, speaker)
 	game:Shutdown()
 end)
 
@@ -8837,23 +8786,21 @@ end)
 
 local antiAfkCon = nil
 addcmd("antiafk", {"antiidle"}, function(args, speaker)
-    if getconnections then
-        for _, c in getconnections(speaker.Idled) do
-            pcall(function() c:Disable() end) -- supposed to "pause" it
-            pcall(function() c:Disconnect() end) -- supposed to disconnect it
-        end
-    end
-
-    if antiAfkCon then
-        antiAfkCon:Disconnect()
-        antiAfkCon = nil
-    end
-    antiAfkCon = speaker.Idled:Connect(function()
-        Services.VirtualUser:CaptureController()
-        Services.VirtualUser:ClickButton2(Vector2.zero)
-    end)
-
-    if not (args[1] and tostring(args[1]) == "nonotify") then notify("Anti Idle", "Anti idle is enabled") end
+	if getconnections then
+		for _, connection in pairs(getconnections(speaker.Idled)) do
+			if connection["Disable"] then
+				connection["Disable"](connection)
+			elseif connection["Disconnect"] then
+				connection["Disconnect"](connection)
+			end
+		end
+	else
+		speaker.Idled:Connect(function()
+			Services.VirtualUser:CaptureController()
+			Services.VirtualUser:ClickButton2(Vector2.new())
+		end)
+	end
+	if not (args[1] and tostring(args[1]) == "nonotify") then notify("Anti Idle", "Anti idle is enabled") end
 end)
 
 addcmd("datalimit", {}, function(args, speaker)
@@ -9057,32 +9004,23 @@ addcmd('un2022materials',{'unuse2022materials'},function(args, speaker)
 end)
 
 addcmd("goto", {"to"}, function(args, speaker)
-	local character = speaker and speaker.Character
-	local humanoid = character and character:FindFirstChildWhichIsA("Humanoid")
-	if humanoid == nil then return end
-
-	if humanoid and humanoid.SeatPart then
-		humanoid.Sit = false
-		task.wait(0.1)
-	end
-
-	local waitForStream = parseBoolean(args[2], false)
-	for _, name in getPlayer(args[1], speaker) do
-		local targetCharacter = Players[name].Character
-		if targetCharacter ~= nil then
-			local targetPivot = targetCharacter:GetPivot()
-			local targetPosition = targetPivot.Position
-
-			if waitForStream and workspace.StreamingEnabled then
-				task.spawn(speaker.RequestStreamAroundAsync, speaker, targetPosition, 5)
-				targetCharacter:WaitForChild("HumanoidRootPart", 5)
-			end
-
-			speaker.Character:PivotTo(CFrame.new(targetPosition + (targetPivot.LookVector * 3), targetPosition))
-			breakVelocity()
-			break
-		end
-	end
+    local character = speaker and speaker.Character
+    local humanoid = character and character:FindFirstChildWhichIsA("Humanoid")
+    local players = getPlayer(args[1], speaker)
+    for _, v in players do
+        if Players[v].Character ~= nil then
+            if humanoid and humanoid.SeatPart then
+                humanoid.Sit = false
+                task.wait(0.1)
+            end
+            if workspace.StreamingEnabled then
+                speaker:RequestStreamAroundAsync(Vector3.new(Players[v].Character:GetPivot()), 0.1)
+                RunService.Heartbeat:Wait()
+            end
+            speaker.Character:PivotTo(Players[v].Character:GetPivot() + Vector3.new(3, 1, 0))
+        end
+    end
+    execCmd("breakvelocity")
 end)
 
 addcmd("tweengoto", {"tgoto", "tto", "tweento"}, function(args, speaker)
@@ -9111,26 +9049,14 @@ addcmd("tweengoto", {"tgoto", "tto", "tweento"}, function(args, speaker)
     end
 end)
 
-addcmd("vehiclegoto", {"vgoto", "vtp", "vehicletp"}, function(args, speaker)
-    local character = speaker.Character
-    local humanoid = if character then character:FindFirstChildOfClass("Humanoid") else nil
-    if not humanoid then return end
-
-    local seat = humanoid.SeatPart
-    local vehicleModel = if seat then seat:FindFirstAncestorWhichIsA("Model") else nil
-    if vehicleModel == nil then
-        notify("Vehicle Goto", "Make sure you're sitting in a vehicle.")
-        return
-    end
-
-    for _, v in getPlayer(args[1], speaker) do
-        if Players[v].Character == nil then continue end
-
-        local root = getRoot(Players[v].Character)
-        if root == nil then continue end
-
-        vehicleModel:PivotTo(root:GetPivot())
-        break
+addcmd('vehiclegoto',{'vgoto','vtp','vehicletp'},function(args, speaker)
+	local players = getPlayer(args[1], speaker)
+	for i,v in pairs(players)do
+		if Players[v].Character ~= nil then
+			local seat = speaker.Character:FindFirstChildOfClass('Humanoid').SeatPart
+			local vehicleModel = seat:FindFirstAncestorWhichIsA("Model")
+			vehicleModel:MoveTo(getRoot(Players[v].Character).Position)
+		end
     end
 end)
 
@@ -9380,20 +9306,21 @@ addcmd("orbit", {}, function(args, speaker)
 		local speed = tonumber(args[2]) or 0.2
 		local distance = tonumber(args[3]) or 6
 
-		orbit1 = RunService.Stepped:Connect(function()
-			breakVelocity()
-			rotation = rotation + speed
-
-			local targetRoot = getRoot(target.Character).Position
-			local orbitPosition = (CFrame.new(targetRoot) * CFrame.Angles(0, math.rad(rotation), 0) * CFrame.new(distance, 0, 0)).Position
-			root.CFrame = CFrame.lookAt(orbitPosition, Vector3.new(targetRoot.X, orbitPosition.Y, targetRoot.Z))
+		orbit1 = RunService.Heartbeat:Connect(function()
+			pcall(function()
+				rotation = rotation + speed
+				root.CFrame = CFrame.new(getRoot(target.Character).Position) * CFrame.Angles(0, math.rad(rotation), 0) * CFrame.new(distance, 0, 0)
+			end)
 		end)
 
-		orbit2 = humanoid.Died:Connect(function() execCmd("unorbit") end)
-
-		orbit3 = humanoid.Seated:Connect(function(value)
-			if value then execCmd("unorbit") end
+		orbit2 = RunService.RenderStepped:Connect(function()
+			pcall(function()
+				root.CFrame = CFrame.new(root.Position, getRoot(target.Character).Position)
+			end)
 		end)
+
+		orbit3 = humanoid.Died:Connect(function() execCmd("unorbit") end)
+		orbit4 = humanoid.Seated:Connect(function(value) if value then execCmd("unorbit") end end)
 
 		notify("Orbit", "Started orbiting " .. formatUsername(target))
 	end
@@ -9403,6 +9330,7 @@ addcmd("unorbit", {}, function(args, speaker)
 	if orbit1 then orbit1:Disconnect() end
 	if orbit2 then orbit2:Disconnect() end
 	if orbit3 then orbit3:Disconnect() end
+	if orbit4 then orbit3:Disconnect() end
 	if args[1] ~= "nonotify" then notify("Orbit", "Stopped orbiting player") end
 end)
 
