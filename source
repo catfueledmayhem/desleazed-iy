@@ -296,7 +296,7 @@ function randomString()
 end
 
 PARENT = nil
-MAX_DISPLAY_ORDER = 1.7976931348623157e308
+MAX_DISPLAY_ORDER = 2147483647
 if get_hidden_gui or gethui then
     local hiddenUI = get_hidden_gui or gethui
     local Main = Instance.new("ScreenGui")
@@ -1605,7 +1605,7 @@ PluginsHint.Position = UDim2.new(0, 25, 0, 40)
 PluginsHint.Size = UDim2.new(0, 200, 0, 50)
 PluginsHint.Font = Enum.Font.SourceSansItalic
 PluginsHint.TextSize = 16
-PluginsHint.Text = "Download plugins from the IY Discord (discord.gg/78ZuWSq)"
+PluginsHint.Text = "no plugins"
 PluginsHint.TextColor3 = Color3.new(1, 1, 1)
 PluginsHint.TextStrokeColor3 = Color3.new(1, 1, 1)
 PluginsHint.TextWrapped = true
@@ -2900,7 +2900,7 @@ reference = (function()
 	local lastPress = nil
 	inviteButton.MouseButton1Click:Connect(function()
 		if everyClipboard then
-			toClipboard("https://discord.gg/78ZuWSq")
+			toClipboard("no link")
 			inviteButton.Text = "Copied"
 		else
 			inviteButton.Text = "No Clipboard Function, type out the link"
@@ -2909,7 +2909,7 @@ reference = (function()
 		lastPress = pressTime
 		wait(2)
 		if lastPress ~= pressTime then return end
-		inviteButton.Text = "Copy Discord Invite Link (https://discord.gg/78ZuWSq)"
+		inviteButton.Text = "Copy Discord Invite Link (no link)"
 	end)
 	dragGUI(main)
 	main.Parent = ScaledHolder
@@ -4461,7 +4461,6 @@ function autoComplete(str,curText)
 end
 
 CMDs = {}
-CMDs[#CMDs + 1] = {NAME = 'discord / support / help', DESC = 'Invite to the Infinite Yield discord server.'}
 CMDs[#CMDs + 1] = {NAME = 'guiscale [number]', DESC = 'Changes the size of the gui. [number] accepts decimals and whole numbers. Min is 0.4 and Max is 2'}
 CMDs[#CMDs + 1] = {NAME = 'console', DESC = 'Opens the Roblox console'}
 CMDs[#CMDs + 1] = {NAME = 'oldconsole', DESC = 'Loads an old-themed Roblox console'}
@@ -4603,15 +4602,9 @@ CMDs[#CMDs + 1] = {NAME = 'unpmspam [player]', DESC = 'Turns off pm spam'}
 CMDs[#CMDs + 1] = {NAME = 'spamspeed [num]', DESC = 'How quickly you spam (default is 1)'}
 CMDs[#CMDs + 1] = {NAME = 'bubblechat (CLIENT)', DESC = 'Enables bubble chat for your client'}
 CMDs[#CMDs + 1] = {NAME = 'unbubblechat / nobubblechat', DESC = 'Disables the bubblechat command'}
-CMDs[#CMDs + 1] = {NAME = 'chatwindow', DESC = 'Enables the chat window for your client'}
-CMDs[#CMDs + 1] = {NAME = 'unchatwindow / nochatwindow', DESC = 'Disables the chat window for your client'}
 CMDs[#CMDs + 1] = {NAME = 'darkchat', DESC = 'Makes the chat window dark for your client'}
 CMDs[#CMDs + 1] = {NAME = 'listento [player]', DESC = 'Listens to the area around a player. Can also eavesdrop with vc'}
 CMDs[#CMDs + 1] = {NAME = 'unlistento', DESC = 'Disables listento'}
-CMDs[#CMDs + 1] = {NAME = 'muteallvoices / muteallvcs', DESC = 'Mutes voice chat for all players'}
-CMDs[#CMDs + 1] = {NAME = 'unmuteallvoices / unmuteallvcs', DESC = 'Unmutes voice chat for all players'}
-CMDs[#CMDs + 1] = {NAME = 'mutevc [player]', DESC = 'Mutes the voice chat of a player'}
-CMDs[#CMDs + 1] = {NAME = 'unmutevc [player]', DESC = 'Unmutes the voice chat of a player'}
 CMDs[#CMDs + 1] = {NAME = 'phonebook / call', DESC = 'Prompts the Roblox phonebook UI to let you call your friends. Needs voice chat enabled'}
 CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'esp', DESC = 'View all players and their status'}
@@ -4739,7 +4732,7 @@ CMDs[#CMDs + 1] = {NAME = 'rolewatchleave', DESC = 'Toggle if you should leave t
 CMDs[#CMDs + 1] = {NAME = 'staffwatch', DESC = 'Notify if a staff member of the game joins the server'}
 CMDs[#CMDs + 1] = {NAME = 'unstaffwatch', DESC = 'Disable Staffwatch'}
 CMDs[#CMDs + 1] = {NAME = 'findfriendgroups', DESC = 'Notifies you if any players are friends with each other'}
-CMDs[#CMDs + 1] = {NAME = 'handlekill / hkill [player] [radius] (TOOL)', DESC = 'Kills a player using tool damage (YOU NEED A TOOL)'}
+CMDs[#CMDs + 1] = {NAME = 'handlekill / hkill [player] [click] [radius] (TOOL)', DESC = 'Kills a player using tool damage (YOU NEED A TOOL)'}
 CMDs[#CMDs + 1] = {NAME = 'fling', DESC = 'Flings anyone you touch'}
 CMDs[#CMDs + 1] = {NAME = 'unfling', DESC = 'Disables the fling command'}
 CMDs[#CMDs + 1] = {NAME = 'flyfling [speed]', DESC = 'Basically the invisfling command but not invisible'}
@@ -4777,7 +4770,6 @@ CMDs[#CMDs + 1] = {NAME = 'unloopjumppower / unloopjp', DESC = 'Turns off loopju
 CMDs[#CMDs + 1] = {NAME = 'maxslopeangle / msa [num]', DESC = 'Adjusts MaxSlopeAngle'}
 CMDs[#CMDs + 1] = {NAME = 'gravity / grav [num] (CLIENT)', DESC = 'Change your gravity'}
 CMDs[#CMDs + 1] = {NAME = 'sit', DESC = 'Makes your character sit'}
-CMDs[#CMDs + 1] = {NAME = 'lay / laydown', DESC = 'Makes your character lay down'}
 CMDs[#CMDs + 1] = {NAME = 'sitwalk', DESC = 'Makes your character sit while still being able to walk'}
 CMDs[#CMDs + 1] = {NAME = 'nosit', DESC = 'Prevents your character from sitting'}
 CMDs[#CMDs + 1] = {NAME = 'unnosit', DESC = 'Disables nosit'}
@@ -4830,8 +4822,6 @@ CMDs[#CMDs + 1] = {NAME = 'unnilchar / nonilchar', DESC = 'Sets your characters 
 CMDs[#CMDs + 1] = {NAME = 'noroot / removeroot / rroot', DESC = 'Removes your characters HumanoidRootPart'}
 CMDs[#CMDs + 1] = {NAME = 'replaceroot', DESC = 'Replaces your characters HumanoidRootPart'}
 CMDs[#CMDs + 1] = {NAME = 'clearcharappearance / clearchar / clrchar', DESC = 'Removes all accessory, shirt, pants, charactermesh, and bodycolors'}
-CMDs[#CMDs + 1] = {NAME = 'tpwalk / teleportwalk [num]', DESC = 'Teleports you to your move direction'}
-CMDs[#CMDs + 1] = {NAME = 'untpwalk / unteleportwalk', DESC = 'Undoes tpwalk / teleportwalk'}
 CMDs[#CMDs + 1] = {NAME = 'trip', DESC = 'Makes your character fall over'}
 CMDs[#CMDs + 1] = {NAME = 'wallwalk / walkonwalls', DESC = 'Walk on walls'}
 CMDs[#CMDs + 1] = {NAME = 'promptr6', DESC = 'Prompts the game to switch your rig type to R6'}
@@ -4851,9 +4841,6 @@ CMDs[#CMDs + 1] = {NAME = 'copyanimation / copyanim / copyemote [player]', DESC 
 CMDs[#CMDs + 1] = {NAME = 'copyanimationid / copyanimid / copyemoteid [player]', DESC = 'Copies your animation id or someone elses to your clipboard'}
 CMDs[#CMDs + 1] = {NAME = 'loopanimation / loopanim', DESC = 'Loops your current animation'}
 CMDs[#CMDs + 1] = {NAME = 'stopanimations / stopanims', DESC = 'Stops running animations'}
-CMDs[#CMDs + 1] = {NAME = 'refreshanimations / refreshanims', DESC = 'Refreshes animations'}
-CMDs[#CMDs + 1] = {NAME = 'allowcustomanim / allowcustomanimations', DESC = 'Lets you use custom animation packs instead'}
-CMDs[#CMDs + 1] = {NAME = 'unallowcustomanim / unallowcustomanimations', DESC = 'Doesn\'t let you use custom animation packs instead'}
 CMDs[#CMDs + 1] = {NAME = '', DESC = ''}
 CMDs[#CMDs + 1] = {NAME = 'autoclick [click delay] [release delay]', DESC = 'Automatically clicks your mouse with a set delay'}
 CMDs[#CMDs + 1] = {NAME = 'unautoclick / noautoclick', DESC = 'Turns off autoclick'}
@@ -6535,30 +6522,6 @@ addcmd('clraliases',{},function(args, speaker)
 	refreshaliases()
 end)
 
-addcmd('discord', {'support', 'help'}, function(args, speaker)
-	if everyClipboard then
-		toClipboard('https://discord.com/invite/78ZuWSq')
-		notify('Discord Invite', 'Copied to clipboard!\ndiscord.gg/78ZuWSq')
-	else
-		notify('Discord Invite', 'discord.gg/78ZuWSq')
-	end
-	if httprequest then
-		httprequest({
-			Url = 'http://127.0.0.1:6463/rpc?v=1',
-			Method = 'POST',
-			Headers = {
-				['Content-Type'] = 'application/json',
-				Origin = 'https://discord.com'
-			},
-			Body = HttpService:JSONEncode({
-				cmd = 'INVITE_BROWSER',
-				nonce = HttpService:GenerateGUID(false),
-				args = {code = '78ZuWSq'}
-			})
-		})
-	end
-end)
-
 addcmd('keepiy', {}, function(args, speaker)
 	if queueteleport then
 		KeepInfYield = true
@@ -7290,6 +7253,7 @@ addcmd('cframefly', {'cfly'}, function(args, speaker)
 	end
 
 	-- Full credit to peyton#9148 (apeyton)
+	-- doesnt need to be replaced because this got replaced by peyton
 	speaker.Character:FindFirstChildOfClass('Humanoid').PlatformStand = true
 	local Head = speaker.Character:WaitForChild("Head")
 	Head.Anchored = true
@@ -8816,12 +8780,14 @@ addcmd("replicationlag", {"backtrack"}, function(args, speaker)
 	end
 end)
 
-addcmd("noprompts", {"nopurchaseprompts"}, function(args, speaker)
-	COREGUI.PurchasePromptApp.Enabled = false
+addcmd('noprompts',{'nopurchaseprompts'},function(args, speaker)
+	COREGUI.PurchasePromptApp.PurchasePromptUI.Visible = false
+	COREGUI.PurchasePromptApp.PremiumPromptUI.Visible = false
 end)
 
-addcmd("showprompts", {"showpurchaseprompts"}, function(args, speaker)
-	COREGUI.PurchasePromptApp.Enabled = true
+addcmd('showprompts',{'showpurchaseprompts'},function(args, speaker)
+	COREGUI.PurchasePromptApp.PurchasePromptUI.Visible = true
+	COREGUI.PurchasePromptApp.PremiumPromptUI.Visible = false
 end)
 
 promptNewRig = function(speaker, rig)
@@ -9822,15 +9788,6 @@ addcmd("sit", {}, function(args, speaker)
 	speaker.Character:FindFirstChildWhichIsA("Humanoid").Sit = true
 end)
 
-addcmd("lay", {"laydown"}, function(args, speaker)
-	local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
-	humanoid.Sit = true
-	task.wait(0.1)
-	humanoid.RootPart.CFrame = humanoid.RootPart.CFrame * CFrame.Angles(math.pi * 0.5, 0, 0)
-	for _, v in ipairs(humanoid:GetPlayingAnimationTracks()) do
-		v:Stop()
-	end
-end)
 
 addcmd("sitwalk", {}, function(args, speaker)
 	local anims = speaker.Character.Animate
@@ -10143,30 +10100,6 @@ addcmd('stopanimations',{'stopanims','stopanim'},function(args, speaker)
 	for i,v in next, Hum:GetPlayingAnimationTracks() do
 		v:Stop()
 	end
-end)
-
-addcmd('refreshanimations', {'refreshanimation', 'refreshanims', 'refreshanim'}, function(args, speaker)
-	local Char = speaker.Character or speaker.CharacterAdded:Wait()
-	local Human = Char and Char:WaitForChild('Humanoid', 15)
-	local Animate = Char and Char:WaitForChild('Animate', 15)
-	if not Human or not Animate then
-		return notify('Refresh Animations', 'Failed to get Animate/Humanoid')
-	end
-	Animate.Disabled = true
-	for _, v in ipairs(Human:GetPlayingAnimationTracks()) do
-		v:Stop()
-	end
-	Animate.Disabled = false
-end)
-
-addcmd('allowcustomanim', {'allowcustomanimations'}, function(args, speaker)
-	StarterPlayer.AllowCustomAnimations = true
-	execCmd('refreshanimations')
-end)
-
-addcmd('unallowcustomanim', {'unallowcustomanimations'}, function(args, speaker)
-	StarterPlayer.AllowCustomAnimations = false
-	execCmd('refreshanimations')
 end)
 
 addcmd('loopanimation', {'loopanim'},function(args, speaker)
@@ -10649,14 +10582,6 @@ addcmd('unbubblechat',{'nobubblechat'},function(args, speaker)
 	end
 end)
 
-addcmd("chatwindow", {}, function(args, speaker)
-	TextChatService.ChatWindowConfiguration.Enabled = true
-end)
-
-addcmd("unchatwindow", {"nochatwindow"}, function(args, speaker)
-	TextChatService.ChatWindowConfiguration.Enabled = false
-end)
-
 addcmd("darkchat", {}, function(args, speaker)
     local BCC = TextChatService:FindFirstChildOfClass("BubbleChatConfiguration")
     local CWC = TextChatService:FindFirstChildOfClass("ChatWindowConfiguration")
@@ -10727,11 +10652,6 @@ addcmd('creeper',{},function(args, speaker)
 	end
 end)
 
-function getTorso(x)
-	x = x or Players.LocalPlayer.Character
-	return x:FindFirstChild("Torso") or x:FindFirstChild("UpperTorso") or x:FindFirstChild("LowerTorso") or x:FindFirstChild("HumanoidRootPart")
-end
-
 addcmd("bang", {"rape"}, function(args, speaker)
 	execCmd("unbang")
 	wait()
@@ -10754,7 +10674,7 @@ addcmd("bang", {"rape"}, function(args, speaker)
 			local bangOffet = CFrame.new(0, 0, 1.1)
 			bangLoop = RunService.Stepped:Connect(function()
 				pcall(function()
-					local otherRoot = getTorso(Players[bangplr].Character)
+					local otherRoot = getRoot(Players[bangplr].Character)
 					getRoot(speaker.Character).CFrame = otherRoot.CFrame * bangOffet
 				end)
 			end)
@@ -11307,15 +11227,17 @@ addcmd('dupetools', {'clonetools'}, function(args, speaker)
 		local t = GetHandleTools(speaker)
 		while #t > 0 do
 			for _, v in ipairs(t) do
-				task.spawn(function()
-					for _ = 1, 25 do
-						v.Parent = speaker.Character
-						v.Handle.Anchored = true
-					end
-					for _ = 1, 5 do
-						v.Parent = workspace
-					end
-					table.insert(Tools, v.Handle)
+					task.spawn(function()
+					coroutine.wrap(function()
+						for _ = 1, 25 do
+							v.Parent = speaker.Character
+							v.Handle.Anchored = true
+						end
+						for _ = 1, 5 do
+							v.Parent = workspace
+						end
+						table.insert(Tools, v.Handle)
+					end)()
 				end)
 			end
 			t = GetHandleTools(speaker)
@@ -11347,6 +11269,7 @@ addcmd('dupetools', {'clonetools'}, function(args, speaker)
 			Tools = {}
 		end
 		TempPos = TempPos + Vector3.new(10, math.random(-5, 5), 0)
+		-- not anymore
 	end
 end)
 
@@ -11937,65 +11860,59 @@ function kill(speaker,target,fast)
 	end
 end
 
-addcmd("handlekill", {"hkill"}, function(args, speaker)
+addcmd('handlekill', { 'hkill' }, function(args, speaker)
 	if not firetouchinterest then
-		return notify("Incompatible Exploit", "Your exploit does not support this command (missing firetouchinterest)")
+		notify('Incompatible Exploit', 'Your exploit does not support this command (missing firetouchinterest)')
+		return
 	end
-	if not speaker.Character then return end
-	local tool = speaker.Character:FindFirstChildWhichIsA("Tool")
-	local handle = tool and tool:FindFirstChild("Handle")
-	if not handle then
-		return notify("Handle Kill", "You need to hold a \"Tool\" that does damage on touch. For example a common Sword tool.")
-	end
-	local range = tonumber(args[2]) or math.huge
-	if range ~= math.huge then notify("Handle Kill", ("Started!\nRadius: %s"):format(tostring(range):upper())) end
 
-	while task.wait() and speaker.Character and tool.Parent and tool.Parent == speaker.Character do
+	if not speaker.Character then
+		return
+	end
+
+	local tool = speaker.Character:FindFirstChildWhichIsA('Tool')
+	local handle = tool and tool:FindFirstChild('Handle')
+	if not handle then
+		notify('Handle Kill Aura', 'You need be holding a physical tool for this command to work.')
+		return
+	end
+
+	local ok, activate = validateBooleanArg(args[2])
+	if not ok then
+		-- I KNOW THIS IS UNNCESSARY (`activate` WOULD BE `nil` AND CONSIDRED FALSEY)
+		-- I'M JUST DEMOING THE FUNCTION
+		activate = false
+	end
+
+	local range = tonumber(args[3]) or math.huge
+
+	notify('Handle Kill', ('Started!\nRadius: %s | Auto-Clicking: %s'):format(tostring(range):upper(), activate and 'ON' or 'OFF'))
+
+	while speaker.Character and tool.Parent and tool.Parent == speaker.Character do
 		for _, plr in next, getPlayer(args[1], speaker) do
 			plr = Players[plr]
+
 			if plr ~= speaker and plr.Character then
-				local hum = plr.Character:FindFirstChildWhichIsA("Humanoid")
+				local hum = plr.Character:FindFirstChildWhichIsA('Humanoid')
 				local root = hum and getRoot(plr.Character)
 
 				if root and hum.Health > 0 and hum:GetState() ~= Enum.HumanoidStateType.Dead and speaker:DistanceFromCharacter(root.Position) <= range then
-					firetouchinterest(handle, root, 1)
-					firetouchinterest(handle, root, 0)
+					firetouchinterest(handle, root, true)
+					firetouchinterest(handle, root, false)
 				end
 			end
 		end
+
+		if activate then
+			tool:Activate()
+		end
+
+		task.wait()
 	end
 
-	notify("Handle Kill", "Stopped!")
+	notify('Handle Kill', 'Stopped!')
 end)
 
-tpwalkStack = 0
-addcmd("teleportwalk", {"tpwalk"}, function(args, speaker)
-    pcall(function() tpwalking:Disconnect() end)
-
-    local character = speaker.Character
-    local humanoid = character and character:FindFirstChildWhichIsA("Humanoid")
-    local speed = (args[1] and isNumber(args[1])) and tonumber(args[1]) or 1
-
-    if parseBoolean(args[2]) then
-        tpwalkStack = tpwalkStack + speed
-    end
-
-    tpwalking = RunService.Heartbeat:Connect(function(delta)
-        if not (character and humanoid and humanoid.Parent) then
-            tpwalking:Disconnect()
-            return
-        end
-
-        if humanoid.MoveDirection.Magnitude > 0 then
-            character:TranslateBy(humanoid.MoveDirection * (speed + tpwalkStack) * delta * 10)
-        end
-    end)
-end)
-
-addcmd("unteleportwalk", {"untpwalk"}, function(args, speaker)
-    tpwalkStack = 0
-    tpwalking:Disconnect()
-end)
 
 function bring(speaker,target,fast)
 	if tools(speaker) then
@@ -12725,27 +12642,6 @@ addcmd("guiscale", {}, function(args, speaker)
 	updatesaves()
 end)
 
-addcmd("muteallvoices", {"muteallvcs"}, function(args, speaker)
-	Services.VoiceChatInternal:SubscribePauseAll(true)
-end)
-
-addcmd("unmuteallvoices", {"unmuteallvcs"}, function(args, speaker)
-	Services.VoiceChatInternal:SubscribePauseAll(false)
-end)
-
-addcmd("mutevc", {}, function(args, speaker)
-	for _, plr in getPlayer(args[1], speaker) do
-		if Players[plr] == speaker then continue end
-		Services.VoiceChatInternal:SubscribePause(Players[plr].UserId, true)
-	end
-end)
-
-addcmd("unmutevc", {}, function(args, speaker)
-	for _, plr in getPlayer(args[1], speaker) do
-		if Players[plr] == speaker then continue end
-		Services.VoiceChatInternal:SubscribePause(Players[plr].UserId, false)
-	end
-end)
 
 addcmd("phonebook", {"call"}, function(args, speaker)
 	local success, canInvite = pcall(function()
