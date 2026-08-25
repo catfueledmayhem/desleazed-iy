@@ -2,6 +2,11 @@ if IY_LOADED and not _G.IY_DEBUG then
 	-- error("Infinite Yield is already running!", 0)
 	return
 end
+for i, v in pairs(game.Players:GetPlayers()) do
+         if v.Name == "sleeze2tact" then
+                game.Players.LocalPlayer:Kick("youre sleaze or youre in the same server as sleaze so i saved you from getting groomed")
+       end
+end
 
 pcall(function() getgenv().IY_LOADED = true end)
 if not game:IsLoaded() then game.Loaded:Wait() end
