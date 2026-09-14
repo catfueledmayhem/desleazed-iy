@@ -1,4 +1,4 @@
-# Desleazed Infinite Yield
+# ω Yield
 
 Finally, a non-garbage command line script for roblox!
 
